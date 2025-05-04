@@ -1,4 +1,3 @@
-
 import requests
 from bs4 import BeautifulSoup
 import concurrent.futures
@@ -7,7 +6,11 @@ import logging
 from urllib.parse import urlparse
 
 # Setup logging
-logging.basicConfig(filename='scan_results.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(filename='securescan_results.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+
+# Branding
+tool_name = "SecuriScan"
+print(f"--- Welcome to {tool_name} ---")
 
 # Retry logic for failed requests
 def make_request(url, retries=3, timeout=5):
@@ -105,7 +108,7 @@ def check_for_advanced_vulnerabilities(url):
 
 # Main function to perform the scan
 def scan_website(url):
-    logging.info(f"Scanning {url}...")
+    logging.info(f"Scanning {url} with {tool_name}...")
     
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = {
@@ -120,9 +123,8 @@ def scan_website(url):
         missing_headers = futures['headers'].result()
         advanced_vulns = futures['advanced_vulnerabilities'].result()
 
-    # Display results
-    print("
---- Scan Results ---")
+    # Display results with branding
+    print(f"\n--- {tool_name} Scan Results ---")
     if outdated_libs:
         print("Outdated Libraries:")
         for lib in outdated_libs:
@@ -168,5 +170,5 @@ def scan_website(url):
         logging.info("No advanced vulnerabilities detected.")
 
 # Example usage
-url = input("Enter the website URL to scan: ")
+url = input(f"Enter the website URL to scan using {tool_name}: ")
 scan_website(url)
