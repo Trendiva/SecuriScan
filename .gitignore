@@ -1,0 +1,33 @@
+
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__
+
+# Virtual environments
+venv/
+env/
+
+# Python distribution and packaging
+build/
+dist/
+*.egg-info/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Local environment configurations
+*.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
