@@ -1,7 +1,7 @@
 
 # SecuriScan
 
-![SecuriScan Banner](SecuriScan.png)
+![SecuriScan Banner](assets/images/SecuriScan.png)
 
 **SecuriScan** is an advanced, Python-based cybersecurity tool designed to automate the process of scanning websites for a wide range of security vulnerabilities and misconfigurations. By detecting both common and complex threats, **SecuriScan** empowers web administrators, developers, and security professionals to proactively secure their websites and reduce their attack surface.
 
