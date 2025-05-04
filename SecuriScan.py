@@ -178,3 +178,6 @@ def scan_website(url):
 # Example usage
 url = input(f"Enter the website URL to scan using {tool_name}: ")
 scan_website(url)
+
+# Pause the execution at the end
+input("Press Enter to exit...")
