@@ -3,14 +3,19 @@ from bs4 import BeautifulSoup
 import concurrent.futures
 import time
 import logging
+import os
 from urllib.parse import urlparse
+from termcolor import colored
 
 # Setup logging
-logging.basicConfig(filename='securescan_results.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+output_folder = "SecuriScan_Results"
+os.makedirs(output_folder, exist_ok=True)
+log_file = os.path.join(output_folder, 'securescan_results.log')
+logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # Branding
 tool_name = "SecuriScan"
-print(f"--- Welcome to {tool_name} ---")
+print(colored(f"--- Welcome to {tool_name} ---", 'cyan'))
 
 # Retry logic for failed requests
 def make_request(url, retries=3, timeout=5):
@@ -124,50 +129,51 @@ def scan_website(url):
         advanced_vulns = futures['advanced_vulnerabilities'].result()
 
     # Display results with branding
-    print(f"\n--- {tool_name} Scan Results ---")
-    if outdated_libs:
-        print("Outdated Libraries:")
-        for lib in outdated_libs:
-            print(lib)
-        logging.info("Outdated Libraries:")
-        for lib in outdated_libs:
-            logging.info(lib)
-    else:
-        print("No outdated libraries detected.")
-        logging.info("No outdated libraries detected.")
+    print(colored(f"\n--- {tool_name} Scan Results ---", 'cyan'))
     
-    if exposed_panels:
-        print("Exposed Admin Panels:")
-        for panel in exposed_panels:
-            print(panel)
-        logging.info("Exposed Admin Panels:")
-        for panel in exposed_panels:
-            logging.info(panel)
-    else:
-        print("No exposed admin panels found.")
-        logging.info("No exposed admin panels found.")
-    
-    if missing_headers:
-        print("Missing Security Headers:")
-        for header in missing_headers:
-            print(header)
-        logging.info("Missing Security Headers:")
-        for header in missing_headers:
-            logging.info(header)
-    else:
-        print("All critical security headers are present.")
-        logging.info("All critical security headers are present.")
-    
-    if advanced_vulns:
-        print("Advanced Vulnerabilities Detected:")
-        for vuln in advanced_vulns:
-            print(vuln)
-        logging.info("Advanced Vulnerabilities Detected:")
-        for vuln in advanced_vulns:
-            logging.info(vuln)
-    else:
-        print("No advanced vulnerabilities detected.")
-        logging.info("No advanced vulnerabilities detected.")
+    output_file = os.path.join(output_folder, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}_scan.txt")
+    with open(output_file, 'w') as f:
+        if outdated_libs:
+            f.write("Outdated Libraries:\n")
+            for lib in outdated_libs:
+                f.write(lib + '\n')
+                print(colored(lib, 'red'))
+            logging.info("Outdated Libraries: " + ", ".join(outdated_libs))
+        else:
+            f.write("No outdated libraries detected.\n")
+            print(colored("No outdated libraries detected.", 'green'))
+        
+        if exposed_panels:
+            f.write("\nExposed Admin Panels:\n")
+            for panel in exposed_panels:
+                f.write(panel + '\n')
+                print(colored(panel, 'yellow'))
+            logging.info("Exposed Admin Panels: " + ", ".join(exposed_panels))
+        else:
+            f.write("No exposed admin panels found.\n")
+            print(colored("No exposed admin panels found.", 'green'))
+        
+        if missing_headers:
+            f.write("\nMissing Security Headers:\n")
+            for header in missing_headers:
+                f.write(header + '\n')
+                print(colored(header, 'yellow'))
+            logging.info("Missing Security Headers: " + ", ".join(missing_headers))
+        else:
+            f.write("All critical security headers are present.\n")
+            print(colored("All critical security headers are present.", 'green'))
+        
+        if advanced_vulns:
+            f.write("\nAdvanced Vulnerabilities Detected:\n")
+            for vuln in advanced_vulns:
+                f.write(vuln + '\n')
+                print(colored(vuln, 'red'))
+            logging.info("Advanced Vulnerabilities Detected: " + ", ".join(advanced_vulns))
+        else:
+            f.write("No advanced vulnerabilities detected.\n")
+            print(colored("No advanced vulnerabilities detected.", 'green'))
+
+    print(colored(f"Scan results saved to: {output_file}", 'cyan'))
 
 # Example usage
 url = input(f"Enter the website URL to scan using {tool_name}: ")
